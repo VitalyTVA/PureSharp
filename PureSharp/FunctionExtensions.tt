@@ -1,0 +1,47 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#const int maxArgsCount = 15;#>
+using System;
+
+namespace PureSharp {
+    public static class FunctionExtensions {
+<#=MapAndJoin(x => { 
+	return string.Format(
+@"        public static {0}, TResult{1} Curry<{2}, TResult>(this Func<{2}, TResult> func) {{
+              return {3} => func(arg1, {4});
+        }}", GetNestedFuncList(x, 1), new String('>', x), GetGenericArgsList(x, 1), GetNestedLambdaList(x, 1), GetArgsList(x - 1, 2)); 
+}, "\r\n", maxArgsCount, 2)#>
+
+        public static Func<TResult> Partial<T, TResult>(this Func<T, TResult> func, T arg1) {
+              return () => func(arg1);
+        }
+<#=MapAndJoin(x => { 
+	return string.Format(
+@"        public static Func<{0}, TResult> Partial<{1}, TResult>(this Func<{1}, TResult> func, T1 arg1) {{
+              return ({2}) => func(arg1, {2});
+        }}", GetGenericArgsList(x - 1, 2), GetGenericArgsList(x, 1), GetArgsList(x - 1, 2)); 
+}, "\r\n", maxArgsCount, 2)#>
+    }
+}
+
+<#+ 
+string GetNestedFuncList(int count, int startIndex) {
+    return MapAndJoin(x => "Func<T" + x, ", ", count, startIndex);
+}
+string GetNestedLambdaList(int count, int startIndex) {
+    return MapAndJoin(x => "arg" + x, " => ", count, startIndex);
+}
+string GetGenericArgsList(int count, int startIndex) {
+    return MapAndJoin(x => "T" + x, ", ", count, startIndex);
+}
+string GetArgsList(int count, int startIndex) {
+    return MapAndJoin(x => "arg" + x, ", ", count, startIndex);
+}
+string MapAndJoin(Func<int, string> map, string join, int count, int startIndex = 0) {
+    return string.Join(join, Enumerable.Range(startIndex, count).Select(map).ToArray());
+}
+#>

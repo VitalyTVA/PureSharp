@@ -1,0 +1,33 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+
+<#
+Generate("PureSharp.LazyMonad", "LazyExtensions", x => string.Format("Lazy<{0}>", x), false);
+Generate("PureSharp.MayBeMonad", "MayBeExtensions", x => x, true);
+Generate("PureSharp.ReaderMonad", "ReaderExtensions", x => string.Format("Func<E, {0}>", x), false, "E, ");
+#>
+
+<#+void Generate(string nameSpace, string className, Func<string, string> monadName, bool hasEmpty, string addidional = "") {#>
+namespace <#=nameSpace#> {
+    static partial class <#=className#> {
+        public static <#=monadName("C")#> SelectMany<<#=addidional#>A, B, C>(this <#=monadName("A")#> source, Func<A, <#=monadName("B")#>> f, Func<A, B, C> resultSelector) {
+            return source.SelectMany(
+                outer => f(outer).SelectMany(
+                inner => resultSelector(outer, inner).Unit<<#=addidional#>C>()));
+        }
+        public static <#=monadName("B")#> Select<<#=addidional#>A, B>(this <#=monadName("A")#> source, Func<A, B> f) {
+            return source.SelectMany(x => f(x).Unit<<#=addidional#>B>());
+        }
+<#+if(hasEmpty) {#>
+        public static <#=monadName("A")#> Where<<#=addidional#>A>(this <#=monadName("A")#> source, Func<A, bool> f) {
+            return source.SelectMany(x => f(x) ? x.Unit<<#=addidional#>A>() : Empty<A>());
+        }
+<#+}#>
+    }
+}
+<#+}#>
