@@ -77,7 +77,7 @@ namespace PureSharp {
 
         public static Func<IList<T>, IList<T>> Reverse<T>() {
             return MapReverse<T, T>()
-                .Partial(Indentity<T>());
+                .Partial(Id<T>());
         }
         public static Func<Func<T, TResult>, IList<T>, IList<TResult>> Map<T, TResult>() {
             return MapReverse<T, TResult>()

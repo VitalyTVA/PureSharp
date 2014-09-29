@@ -2,7 +2,7 @@
 
 namespace PureSharp {
     public static class F {
-        public static Func<T, T> Indentity<T>() {
+        public static Func<T, T> Id<T>() {
             return x => x;
         }
         public static Func<T1, TResult> Pipe<T1, T2, TResult>(this Func<T1, T2> f1, Func<T2, TResult> f2) {

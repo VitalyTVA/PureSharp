@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PureSharp.F;
 
 namespace PureSharp.ReaderMonad {
     public static partial class ReaderExtensions {
         public static Func<A, A> Ask<A>() {
-            return x => x;
+            return Id<A>();
         }
         public static Func<E, A> Local<E, A>(Func<E, E> f, Func<E, A> reader) {
-            return e => reader(f(e));
+            return f.Pipe(reader);
         }
         public static Func<E, A> AsReader<E, A>(this A source) {
             return source.Unit<E, A>();
@@ -20,7 +21,7 @@ namespace PureSharp.ReaderMonad {
             return x => source;
         }
         static Func<E, B> SelectMany<E, A, B>(this Func<E, A> source, Func<A, Func<E, B>> f) {
-            return (E e) => f(source(e))(e);
+            return e => f(source(e))(e);
         }
     }
 }

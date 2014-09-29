@@ -257,7 +257,7 @@ namespace PureSharp.Tests {
             var oddList = isOddFunc.FilterLazy(initialList);
             isOddCallCount.IsEqual(0);
 
-            var mappedList = F.Indentity<int>().MapLazy(oddList);
+            var mappedList = F.Id<int>().MapLazy(oddList);
             isOddCallCount.IsEqual(0); //OOPS!
         }
 

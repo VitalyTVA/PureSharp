@@ -1,4 +1,5 @@
 ﻿using System;
+using PureSharp.LazyExtensions;
 
 namespace PureSharp.LazyMonad {
     public static partial class LazyExtensions {
@@ -6,14 +7,14 @@ namespace PureSharp.LazyMonad {
             return Unit(source);
         }
         public static Lazy<A> AsLazy<A>(this Func<A> f) {
-            return new Lazy<A>(f);
+            return Lazy(f);
         }
 
         static Lazy<A> Unit<A>(this A source) {
-            return new Lazy<A>(() => source);
+            return Lazy(() => source);
         }
         static Lazy<B> SelectMany<A, B>(this Lazy<A> source, Func<A, Lazy<B>> f) {
-            return new Lazy<B>(() => f(source.Value).Value);
+            return Lazy(() => f(source.Value).Value);
         }
     }
 }

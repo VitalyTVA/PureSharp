@@ -19,7 +19,7 @@ namespace PureSharp.Tests {
         }
         [Test]
         public void Identity() {
-            F.Indentity<int>()(1).IsEqual(1);
+            F.Id<int>()(1).IsEqual(1);
         }
     }
 }
