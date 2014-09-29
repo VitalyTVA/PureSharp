@@ -21,6 +21,9 @@ namespace PureSharp.Tests {
             reader = Test(value.AsReader<string, string>());
             value = "d";
             reader("a").IsEqual("AC");
+
+            reader = Local(e => e + e, Test(x => value));
+            reader("a").IsEqual("AAD");
         }
 
         static Func<string, string> Test() {
