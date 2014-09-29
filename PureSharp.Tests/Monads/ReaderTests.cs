@@ -24,6 +24,9 @@ namespace PureSharp.Tests {
 
             reader = Local(e => e + e, Test(x => value));
             reader("a").IsEqual("AAD");
+
+            reader = Test2(x => value);
+            reader("b").IsEqual("BBBDd");
         }
 
         static Func<string, string> Test() {
@@ -35,6 +38,12 @@ namespace PureSharp.Tests {
                    from y in a
                    let t = x + y
                    select t.ToUpper();
+        }
+        static Func<string, string> Test2(Func<string, string> a) {
+            return from x in Ask<string>()
+                   from y in Local(e => e + e, Test(a))
+                   from z in a
+                   select x.ToUpper() + y + z;
         }
     }
 }
