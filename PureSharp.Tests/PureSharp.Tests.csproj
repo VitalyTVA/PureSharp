@@ -45,11 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FunctionExtensionsTests.cs" />
-    <Compile Include="LazyTests.cs" />
+    <Compile Include="Monads\LazyTests.cs" />
     <Compile Include="ListTests.cs" />
-    <Compile Include="MayBeTest.cs" />
+    <Compile Include="Monads\MayBeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReaderTests.cs" />
+    <Compile Include="Monads\ReaderTests.cs" />
     <Compile Include="Utils\FluentAssert.cs" />
     <Compile Include="Utils\MemoryLeaksTestHelper.cs" />
   </ItemGroup>

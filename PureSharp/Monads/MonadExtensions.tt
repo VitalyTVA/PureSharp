@@ -7,13 +7,14 @@
 using System;
 
 <#
-Generate("PureSharp.LazyMonad", "LazyExtensions", x => string.Format("Lazy<{0}>", x), false);
-Generate("PureSharp.MayBeMonad", "MayBeExtensions", x => x, true);
-Generate("PureSharp.ReaderMonad", "ReaderExtensions", x => string.Format("Func<E, {0}>", x), false, "E, ");
+const string rootNameSpace = "PureSharp";
+Generate(rootNameSpace, "LazyMonad", "LazyExtensions", x => string.Format("Lazy<{0}>", x), false);
+Generate(rootNameSpace, "MayBeMonad", "MayBeExtensions", x => x, true);
+Generate(rootNameSpace, "ReaderMonad", "ReaderExtensions", x => string.Format("Func<E, {0}>", x), false, "E, ");
 #>
 
-<#+void Generate(string nameSpace, string className, Func<string, string> monadName, bool hasEmpty, string addidional = "") {#>
-namespace <#=nameSpace#> {
+<#+void Generate(string rootNameSpace, string nameSpace, string className, Func<string, string> monadName, bool hasEmpty, string addidional = "") {#>
+namespace <#=rootNameSpace#>.<#=nameSpace#> {
     static partial class <#=className#> {
         public static <#=monadName("C")#> SelectMany<<#=addidional#>A, B, C>(this <#=monadName("A")#> source, Func<A, <#=monadName("B")#>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
