@@ -12,10 +12,14 @@ namespace PureSharp.Tests {
             Test()("a").IsEqual("A");
 
             string value = string.Empty;
-            var reader = Test(e => value);
+            var reader = Test(x => value);
             value = "b";
             reader("a").IsEqual("AB");
             value = "c";
+            reader("a").IsEqual("AC");
+
+            reader = Test(value.AsReader<string, string>());
+            value = "d";
             reader("a").IsEqual("AC");
         }
 
