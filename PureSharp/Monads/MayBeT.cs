@@ -17,18 +17,14 @@ namespace PureSharp.MayBeTransformer {
         static Lazy<MayBe<A>> Unit<A>(this A source) {
             return source.AsMayBe().AsLazy();
         }
-        //static Lazy<MayBe<A>> Empty<A>() {
-        //    return MayBe2Extensions.Empty<A>().AsLazy();
-        //}
+        static Lazy<MayBe<A>> Empty<A>() {
+            return MayBe2Extensions.Empty<A>().AsLazy();
+        }
         static Lazy<MayBe<B>> SelectMany<A, B>(this Lazy<MayBe<A>> source, Func<A, Lazy<MayBe<B>>> f) {
             return LazyMonad.LazyExtensions.SelectMany<MayBe<A>, MayBe<B>>(
                 source,
                 x => (x.Value != null ? f(x.Value) : LazyMonad.LazyExtensions.AsLazy(MayBe2Extensions.Empty<B>()))
             );
-
-            //return from a in source
-            //       select (from b in a.Value
-            //               select y);
         }
     }
 }

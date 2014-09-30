@@ -9,7 +9,7 @@ using LazyMayBeInt = System.Lazy<PureSharp.MayBeMonad2.MayBe<int?>>;
 
 namespace PureSharp.Tests {
     [TestFixture]
-    public class MayBeTransfromerTests {
+    public partial class MayBeTransfromerTests {
         [Test]
         public void MayBeTransfromerTest() {
             int value1GetCount = 0;
@@ -48,6 +48,12 @@ namespace PureSharp.Tests {
             res.Value.Value.IsEqual<int?>(null);
             value1GetCount.IsEqual(4);
             value2GetCount.IsEqual(2);
+
+            SumWhere(f1.AsLazy(), f2.AsLazy()).Value.Value.IsEqual<int?>(null);
+            value1 = 4;
+            SumWhere(f1.AsLazy(), f2.AsLazy()).Value.Value.IsEqual<int?>(7);
+            value1 = 2;
+            SumWhere(f1.AsLazy(), f2.AsLazy()).Value.Value.IsEqual<int?>(null);
         }
         LazyMayBeInt Sum(LazyMayBeInt a, LazyMayBeInt b) {
             return from x in a

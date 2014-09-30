@@ -69,6 +69,9 @@ using PureSharp.MayBeMonad2;
         public static Lazy<MayBe<B>> Select<A, B>(this Lazy<MayBe<A>> source, Func<A, B> f) {
             return source.SelectMany(x => f(x).Unit<B>());
         }
+        public static Lazy<MayBe<A>> Where<A>(this Lazy<MayBe<A>> source, Func<A, bool> f) {
+            return source.SelectMany(x => f(x) ? x.Unit<A>() : Empty<A>());
+        }
     }
 }
 
