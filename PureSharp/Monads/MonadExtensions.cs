@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace PureSharp.LazyMonad {
+
     partial class LazyExtensions {
         public static Lazy<C> SelectMany<A, B, C>(this Lazy<A> source, Func<A, Lazy<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -13,6 +14,7 @@ namespace PureSharp.LazyMonad {
     }
 }
 namespace PureSharp.MayBeMonad {
+
     partial class MayBeExtensions {
         public static C SelectMany<A, B, C>(this A source, Func<A, B> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -28,6 +30,7 @@ namespace PureSharp.MayBeMonad {
     }
 }
 namespace PureSharp.MayBeMonad2 {
+
     partial class MayBe2Extensions {
         public static MayBe<C> SelectMany<A, B, C>(this MayBe<A> source, Func<A, MayBe<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -43,6 +46,7 @@ namespace PureSharp.MayBeMonad2 {
     }
 }
 namespace PureSharp.ReaderMonad {
+
     partial class ReaderExtensions {
         public static Func<E, C> SelectMany<E, A, B, C>(this Func<E, A> source, Func<A, Func<E, B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -51,6 +55,19 @@ namespace PureSharp.ReaderMonad {
         }
         public static Func<E, B> Select<E, A, B>(this Func<E, A> source, Func<A, B> f) {
             return source.SelectMany(x => f(x).Unit<E, B>());
+        }
+    }
+}
+namespace PureSharp.MayBeTransformer {
+using PureSharp.MayBeMonad2;
+    partial class MayBeTExtensions {
+        public static Lazy<MayBe<C>> SelectMany<A, B, C>(this Lazy<MayBe<A>> source, Func<A, Lazy<MayBe<B>>> f, Func<A, B, C> resultSelector) {
+            return source.SelectMany(
+                outer => f(outer).SelectMany(
+                inner => resultSelector(outer, inner).Unit<C>()));
+        }
+        public static Lazy<MayBe<B>> Select<A, B>(this Lazy<MayBe<A>> source, Func<A, B> f) {
+            return source.SelectMany(x => f(x).Unit<B>());
         }
     }
 }

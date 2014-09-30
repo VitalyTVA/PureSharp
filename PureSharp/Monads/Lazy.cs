@@ -13,7 +13,7 @@ namespace PureSharp.LazyMonad {
         static Lazy<A> Unit<A>(this A source) {
             return Lazy(() => source);
         }
-        static Lazy<B> SelectMany<A, B>(this Lazy<A> source, Func<A, Lazy<B>> f) {
+        public static Lazy<B> SelectMany<A, B>(this Lazy<A> source, Func<A, Lazy<B>> f) {
             return Lazy(() => f(source.Value).Value);
         }
     }

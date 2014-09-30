@@ -12,10 +12,13 @@ Generate(rootNameSpace, "LazyMonad", "LazyExtensions", x => string.Format("Lazy<
 Generate(rootNameSpace, "MayBeMonad", "MayBeExtensions", x => x, true);
 Generate(rootNameSpace, "MayBeMonad2", "MayBe2Extensions", x => string.Format("MayBe<{0}>", x), true);
 Generate(rootNameSpace, "ReaderMonad", "ReaderExtensions", x => string.Format("Func<E, {0}>", x), false, "E, ");
+
+Generate(rootNameSpace, "MayBeTransformer", "MayBeTExtensions", x => string.Format("Lazy<MayBe<{0}>>", x), false, string.Empty, "using PureSharp.MayBeMonad2;");
 #>
 
-<#+void Generate(string rootNameSpace, string nameSpace, string className, Func<string, string> monadName, bool hasEmpty, string addidional = "") {#>
+<#+void Generate(string rootNameSpace, string nameSpace, string className, Func<string, string> monadName, bool hasEmpty, string addidional = "", string usingList = "") {#>
 namespace <#=rootNameSpace#>.<#=nameSpace#> {
+<#=usingList#>
     partial class <#=className#> {
         public static <#=monadName("C")#> SelectMany<<#=addidional#>A, B, C>(this <#=monadName("A")#> source, Func<A, <#=monadName("B")#>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(

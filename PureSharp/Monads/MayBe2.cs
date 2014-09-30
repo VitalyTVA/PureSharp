@@ -11,10 +11,10 @@ namespace PureSharp.MayBeMonad2 {
         static MayBe<A> Unit<A>(this A source) {
             return new MayBe<A>(source);
         }
-        static MayBe<A> Empty<A>() {
+        public static MayBe<A> Empty<A>() {
             return default(A).Unit();
         }
-        static MayBe<B> SelectMany<A, B>(this MayBe<A> source, Func<A, MayBe<B>> f) {
+        public static MayBe<B> SelectMany<A, B>(this MayBe<A> source, Func<A, MayBe<B>> f) {
             if(source.Value == null)
                 return Empty<B>();
             return f(source.Value);
