@@ -49,6 +49,7 @@
     <Compile Include="Monads\LazyTests.cs" />
     <Compile Include="ListTests.cs" />
     <Compile Include="Monads\MayBeTest.cs" />
+    <Compile Include="Monads\MayBeTransfromerTest2.cs" />
     <Compile Include="Monads\MayBeTransfromerTest.cs" />
     <Compile Include="Monads\MayBeTransfromerTest.partial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
