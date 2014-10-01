@@ -74,4 +74,17 @@ using PureSharp.MayBeMonad2;
         }
     }
 }
+namespace PureSharp.MayBeTransformer2 {
+
+    partial class MayBeTExtensions2 {
+        public static MayBeT<C> SelectMany<A, B, C>(this MayBeT<A> source, Func<A, MayBeT<B>> f, Func<A, B, C> resultSelector) {
+            return source.SelectMany(
+                outer => f(outer).SelectMany(
+                inner => resultSelector(outer, inner).Unit<C>()));
+        }
+        public static MayBeT<B> Select<A, B>(this MayBeT<A> source, Func<A, B> f) {
+            return source.SelectMany(x => f(x).Unit<B>());
+        }
+    }
+}
 
