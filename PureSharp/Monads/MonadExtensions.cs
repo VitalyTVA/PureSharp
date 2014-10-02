@@ -60,7 +60,7 @@ namespace PureSharp.ReaderMonad {
 }
 namespace PureSharp.MayBeTransformer {
 using PureSharp.MayBeMonad2;
-    partial class LazyMayBeExtensions {
+    partial class LazyMayBe2Extensions {
         public static Lazy<MayBe<C>> SelectMany<A, B, C>(this Lazy<MayBe<A>> source, Func<A, Lazy<MayBe<B>>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
                 outer => f(outer).SelectMany(

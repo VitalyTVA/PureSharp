@@ -3,7 +3,7 @@ using PureSharp.MayBeMonad2;
 using PureSharp.LazyMonad;
 
 namespace PureSharp.MayBeTransformer {
-    public static partial class LazyMayBeExtensions {
+    public static partial class LazyMayBe2Extensions {
         public static Lazy<MayBe<A>> AsLazyM<A>(this A source) {
             return source.Unit();
         }

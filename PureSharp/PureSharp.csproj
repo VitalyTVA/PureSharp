@@ -52,7 +52,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FunctionExtensions.tt</DependentUpon>
     </Compile>
-    <Compile Include="Monads\MayBeT.cs" />
+    <Compile Include="Monads\LazyMayBe2.cs" />
     <Compile Include="Monads\MayBe2.cs" />
     <Compile Include="Monads\Lazy.cs" />
     <Compile Include="List.cs" />
