@@ -11,10 +11,10 @@ namespace PureSharp.WriterMonad {
         public readonly Monoid<W> Monoid = monoid;
     }
     public static class WriterExtensions {
-        public static Writer<W, Zero> Apppend<W, A>(this Writer<W, Zero> source, W log) {
-            return source.Value.AsWriter(source.Monoid.Sum(source.Log, log), source.Monoid);
-        }
-        public static Writer<W, Zero> Tell<W, A>(W log, Monoid<W> monoid) {
+        //public static Writer<W, Zero> Apppend<W, A>(this Writer<W, Zero> source, W log) {
+        //    return source.Value.AsWriter(source.Monoid.Sum(source.Log, log), source.Monoid);
+        //}
+        public static Writer<W, Zero> Tell<W>(W log, Monoid<W> monoid) {
             return Zero.Instance.AsWriter(log, monoid);
         }
         public static Writer<W, A> AsWriter<W, A>(this A source, Monoid<W> monoid) {
