@@ -8,7 +8,7 @@ using PureSharp.Tests.Utils;
 namespace PureSharp.Tests {
     [TestFixture]
     public class ListTests {
-        const int BlowStackCount = 1000000;
+        const int BlowStackCount = 100000;
         static readonly Func<int, int> SumFunc = x => x + x;
 
         [Test]

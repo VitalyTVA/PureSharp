@@ -14,6 +14,7 @@ Generate(rootNameSpace, "MayBeMonad2", "MayBe2Extensions", x => string.Format("M
 Generate(rootNameSpace, "ReaderMonad", "ReaderExtensions", x => string.Format("Func<E, {0}>", x), false, "E, ");
 
 Generate(rootNameSpace, "LazyMayBeMonad2", "LazyMayBe2Extensions", x => string.Format("Lazy<MayBe<{0}>>", x), true, string.Empty, "using PureSharp.MayBeMonad2;");
+Generate(rootNameSpace, "LazyMayBeMonad", "LazyMayBeExtensions", x => string.Format("Lazy<{0}>", x), true, string.Empty, "using PureSharp.MayBeMonad;");
 #>
 
 <#+void Generate(string rootNameSpace, string nameSpace, string className, Func<string, string> monadName, bool hasEmpty, string addidional = "", string usingList = "") {#>
