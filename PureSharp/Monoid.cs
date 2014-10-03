@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace PureSharp {
-    public class Monoid<W>(W @null, Func<W, W, W> sum) {
+    public struct Monoid<W>(W @null, Func<W, W, W> sum) {
         public readonly W Null = @null;
         public readonly Func<W, W, W> Sum = sum;
     }
