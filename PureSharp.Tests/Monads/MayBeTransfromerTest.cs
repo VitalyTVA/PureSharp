@@ -4,7 +4,7 @@ using PureSharp.Tests.Utils;
 using LazyMayBeInt = System.Lazy<PureSharp.MayBeMonad2.MayBe<int?>>;
 
 namespace PureSharp.Tests {
-    using MayBeTransformer;
+    using LazyMayBeMonad2;
     using MayBeMonad2;
     using LazyMonad;
     [TestFixture]
@@ -62,7 +62,7 @@ namespace PureSharp.Tests {
     }
 }
 namespace PureSharp.Tests {
-    using MayBeTransformer;
+    using LazyMayBeMonad2;
     partial class MayBeTransfromerTests {
         LazyMayBeInt SumWhere(LazyMayBeInt a, LazyMayBeInt b) {
             return from x in a
