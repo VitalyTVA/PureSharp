@@ -5,26 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PureSharp.WriterMonad {
-    public struct Writer<W, A>(A value, W log, Monoid<W> monoid) {
+    public struct Writer<A, W>(A value, W log, Monoid<W> monoid) {
         public readonly W Log = log;
         public readonly A Value = value;
         public readonly Monoid<W> Monoid = monoid;
     }
     public static class WriterExtensions {
-
-        //public static MayBe<A> AsMayBe<A>(this A source) {
-        //    return source.Unit();
-        //}
-        //static MayBe<A> Unit<A>(this A source) {
-        //    return new MayBe<A>(source);
-        //}
-        //public static MayBe<A> Empty<A>() {
-        //    return default(A).Unit();
-        //}
-        //public static MayBe<B> SelectMany<A, B>(this MayBe<A> source, Func<A, MayBe<B>> f) {
-        //    if(source.Value == null)
-        //        return Empty<B>();
-        //    return f(source.Value);
-        //}
+        public static Writer<A, W> AsWriter<A, W>(this A source, Monoid<W> monoid) {
+            return source.Unit(monoid);
+        }
+        static Writer<A, W> Unit<A, W>(this A source, Monoid<W> monoid) {
+            return new Writer<A, W>(source, monoid.Null, monoid);
+        }
+        public static Writer<B, W> SelectMany<A, B, W>(this Writer<A, W> source, Func<A, Writer<B, W>> f) {
+            return new Writer<B, W>(f(source.Value).Value, source.Log, source.Monoid);
+        }
     }
 }
