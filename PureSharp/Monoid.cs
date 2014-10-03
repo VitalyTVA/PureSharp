@@ -10,4 +10,8 @@ namespace PureSharp {
             return new Monoid<W>(@null, sum);
         }
     }
+    public sealed class Zero {
+        public static readonly Zero Instance = new Zero();
+        Zero() { }
+    }
 }
