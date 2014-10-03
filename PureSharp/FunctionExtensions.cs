@@ -6,6 +6,10 @@ namespace PureSharp {
         public static readonly Monoid<int> IntMonoid = CreateMonoid(default(int), (x, y) => x + y);
         public static readonly Monoid<uint> UintMonoid = CreateMonoid(default(uint), (x, y) => x + y);
         public static readonly Monoid<long> LongMonoid = CreateMonoid(default(long), (x, y) => x + y);
+        public static readonly Monoid<ulong> UlongMonoid = CreateMonoid(default(ulong), (x, y) => x + y);
+        public static readonly Monoid<double> DoubleMonoid = CreateMonoid(default(double), (x, y) => x + y);
+        public static readonly Monoid<decimal> DecimalMonoid = CreateMonoid(default(decimal), (x, y) => x + y);
+        public static readonly Monoid<float> FloatMonoid = CreateMonoid(default(float), (x, y) => x + y);
 
     }
 
