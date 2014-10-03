@@ -50,7 +50,7 @@
     <Compile Include="ListTests.cs" />
     <Compile Include="Monads\MayBeTest.cs" />
     <Compile Include="Monads\Polymorphic\MayBeTransfromerTest2.cs" />
-    <Compile Include="Monads\MayBeTransfromerTest.cs" />
+    <Compile Include="Monads\LazyMayBe2Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Monads\ReaderTests.cs" />
     <Compile Include="Utils\FluentAssert.cs" />

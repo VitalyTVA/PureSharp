@@ -8,7 +8,7 @@ namespace PureSharp.Tests {
     using MayBeMonad2;
     using LazyMonad;
     [TestFixture]
-    public partial class MayBeTransfromerTests {
+    public partial class LazyMayBe2Tests {
         [Test]
         public void MayBeTransfromerTest() {
             int value1GetCount = 0;
@@ -63,7 +63,7 @@ namespace PureSharp.Tests {
 }
 namespace PureSharp.Tests {
     using LazyMayBeMonad2;
-    partial class MayBeTransfromerTests {
+    partial class LazyMayBe2Tests {
         LazyMayBeInt SumWhere(LazyMayBeInt a, LazyMayBeInt b) {
             return from x in a
                    from y in b
