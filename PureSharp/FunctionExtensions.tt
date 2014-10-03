@@ -8,6 +8,12 @@
 using System;
 
 namespace PureSharp {
+    public static partial class Monoid {
+<#=string.Join(string.Empty, new[] { "string", "int", "uint", "long" }.Select(x => {
+return string.Format("        public static readonly Monoid<{0}> {1}Monoid = CreateMonoid(default({0}), (x, y) => x + y);\r\n", x, x.First().ToString().ToUpper() + String.Join("", x.Skip(1)));
+    }).ToArray())#>
+    }
+
     public static class FunctionExtensions {
 <#=MapAndJoin(x => { 
 	return string.Format(

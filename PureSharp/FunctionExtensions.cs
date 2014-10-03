@@ -1,6 +1,14 @@
 ﻿using System;
 
 namespace PureSharp {
+    public static partial class Monoid {
+        public static readonly Monoid<string> StringMonoid = CreateMonoid(default(string), (x, y) => x + y);
+        public static readonly Monoid<int> IntMonoid = CreateMonoid(default(int), (x, y) => x + y);
+        public static readonly Monoid<uint> UintMonoid = CreateMonoid(default(uint), (x, y) => x + y);
+        public static readonly Monoid<long> LongMonoid = CreateMonoid(default(long), (x, y) => x + y);
+
+    }
+
     public static class FunctionExtensions {
         public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>(this Func<T1, T2, TResult> func) {
               return arg1 => arg2 => func(arg1, arg2);
