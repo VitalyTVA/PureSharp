@@ -7,7 +7,7 @@ namespace PureSharp.LazyMayBeMonad {
         public readonly Lazy<A> Value = value;
     }
     public static partial class LazyMayBeExtensions {
-        public static LazyMayBe<A> AsLazyM<A>(this A source) {
+        public static LazyMayBe<A> AsLazyMayBe<A>(this A source) {
             return source.Unit();
         }
         public static LazyMayBe<A> AsLazyMayBe<A>(this Lazy<A> source) {
@@ -21,7 +21,7 @@ namespace PureSharp.LazyMayBeMonad {
             return source.AsLazy().AsLazyMayBe();
         }
         static LazyMayBe<A> Empty<A>() {
-            return MayBeExtensions.Empty<A>().AsLazyM();
+            return MayBeExtensions.Empty<A>().AsLazyMayBe();
         }
         static LazyMayBe<B> SelectMany<A, B>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f) {
             return LazyMonad.LazyExtensions.SelectMany<A, B>(

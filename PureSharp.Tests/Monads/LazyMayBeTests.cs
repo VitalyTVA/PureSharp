@@ -10,7 +10,7 @@ namespace PureSharp.Tests {
     public partial class LazyMayBeTests {
         [Test]
         public void MayBeTransfromerTest() {
-            LazyMayBeInt q1 = ((int?)1).AsLazyM();
+            LazyMayBeInt q1 = ((int?)1).AsLazyMayBe();
             q1.Value.Value.IsEqual<int?>(1);
             q1 = ((int?)1).AsLazy().AsLazyMayBe();
             q1.Value.Value.IsEqual<int?>(1);
