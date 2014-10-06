@@ -58,6 +58,19 @@ namespace PureSharp.ReaderMonad {
         }
     }
 }
+namespace PureSharp.WriterMonad {
+
+    partial class WriterExtensions {
+        public static Writer<W, C> SelectMany<W, A, B, C>(this Writer<W, A> source, Func<A, Writer<W, B>> f, Func<A, B, C> resultSelector) {
+            return source.SelectMany(
+                outer => f(outer).SelectMany(
+                inner => resultSelector(outer, inner).Unit<W, C>(source.Monoid)));
+        }
+        public static Writer<W, B> Select<W, A, B>(this Writer<W, A> source, Func<A, B> f) {
+            return source.SelectMany(x => f(x).Unit<W, B>(source.Monoid));
+        }
+    }
+}
 namespace PureSharp.LazyMayBeMonad2 {
 using PureSharp.MayBeMonad2;
     partial class LazyMayBe2Extensions {

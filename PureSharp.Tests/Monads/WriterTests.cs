@@ -22,7 +22,7 @@ namespace PureSharp.Tests {
 
             Sum(2.AsWriter("Got 2.", StringMonoid), ((long)3).AsWriter("Got 3.", StringMonoid))
                 .IsEqual(x => x.Value, (long)5)
-                .IsEqual(x => x.Log, "Got 2.Got 3.Sum 2 + 3.");
+                .IsEqual(x => x.Log, "Got 2.Got 3.!Sum 2 + 3.");
         }
 
         static IntStringWriter DoubleSimple(IntStringWriter a) {
@@ -37,7 +37,7 @@ namespace PureSharp.Tests {
         }
         static LongSringWriter Sum(IntStringWriter a, LongSringWriter b) {
             return from x in a
-                   from y in b
+                   from y in b.Append("!")
                    from _ in Tell("Sum " + x + " + " + y + ".", StringMonoid)
                    select x + y;
         }
