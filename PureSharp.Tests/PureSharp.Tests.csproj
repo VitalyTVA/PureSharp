@@ -55,6 +55,7 @@
     <Compile Include="Monads\WriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Monads\ReaderTests.cs" />
+    <Compile Include="Monads\ReaderMayBe2Tests.cs" />
     <Compile Include="Utils\FluentAssert.cs" />
     <Compile Include="Utils\MemoryLeaksTestHelper.cs" />
   </ItemGroup>
