@@ -11,12 +11,18 @@ namespace PureSharp.Tests {
     public partial class LazyMayBe2Tests {
         [Test]
         public void MayBeTransfromerTest() {
+            LazyMayBeInt q1 = ((int?)1).AsLazyMayBe();
+            q1.Value.Value.Value.IsEqual<int?>(1);
+            q1 = ((int?)1).AsMayBe().AsLazy().AsLazyMayBe();
+            q1.Value.Value.Value.IsEqual<int?>(1);
+
             int value1GetCount = 0;
             int? value1 = null;
             Func<MayBe<int?>> f1 = () => {
                 value1GetCount++;
                 return value1.AsMayBe();
             };
+            LazyMayBeInt q2 = f1.AsLazyMayBe();
 
             int value2GetCount = 0;
             int? value2 = null;

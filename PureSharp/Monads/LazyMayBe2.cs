@@ -7,7 +7,7 @@ namespace PureSharp.LazyMayBeMonad2 {
         public readonly Lazy<MayBe<A>> Value = value;
     }
     public static partial class LazyMayBe2Extensions {
-        public static LazyMayBe<A> AsLazyM<A>(this A source) {
+        public static LazyMayBe<A> AsLazyMayBe<A>(this A source) {
             return source.Unit();
         }
         public static LazyMayBe<A> AsLazyMayBe<A>(this Lazy<MayBe<A>> source) {
