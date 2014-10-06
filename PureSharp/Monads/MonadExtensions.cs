@@ -100,6 +100,22 @@ namespace PureSharp.LazyMayBeMonad2 {
     }
 }
 namespace PureSharp.LazyMayBeMonad {
+    public static partial class LazyMayBeExtensions {
+        static LazyMayBe<A> Unit<A>(this A source) {
+            return LazyMonad.LazyExtensions.Unit(source).AsLazyMayBe();
+        }
+        static LazyMayBe<A> Empty<A>() {
+            return LazyMonad.LazyExtensions.Unit(MayBeExtensions.Empty<A>()).AsLazyMayBe();
+        }
+        static LazyMayBe<B> SelectMany<A, B>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f) {
+            return LazyMonad.LazyExtensions.SelectMany<A, B>(
+                source.Value,
+                x => (x != null ? f(x).Value : LazyMonad.LazyExtensions.Unit(MayBeExtensions.Empty<B>()))
+            ).AsLazyMayBe();
+        }
+    }
+}
+namespace PureSharp.LazyMayBeMonad {
     partial class LazyMayBeExtensions {
         public static LazyMayBe<C> SelectMany<A, B, C>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
