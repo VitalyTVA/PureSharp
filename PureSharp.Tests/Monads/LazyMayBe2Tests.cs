@@ -59,11 +59,6 @@ namespace PureSharp.Tests {
                    from y in b
                    select x + y;
         }
-    }
-}
-namespace PureSharp.Tests {
-    using LazyMayBeMonad2;
-    partial class LazyMayBe2Tests {
         LazyMayBeInt SumWhere(LazyMayBeInt a, LazyMayBeInt b) {
             return from x in a
                    from y in b
