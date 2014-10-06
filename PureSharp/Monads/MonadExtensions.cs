@@ -92,22 +92,22 @@ namespace PureSharp.LazyMayBeMonad2 {
             return new LazyMayBe<A>(source);
         }
         public static LazyMayBe<A> AsLazyMayBe<A>(this A source) {
-            return source.Unit();
+            return source.Unit<A>();
         }
         public static LazyMayBe<A> AsLazyMayBe<A>(this MayBe<A> source) {
-            return LazyMonad.LazyExtensions.Unit(source).AsLazyMayBe();
+            return LazyMonad.LazyExtensions.Unit<MayBe<A>>(source).AsLazyMayBe();
         }
 
         static LazyMayBe<A> Unit<A>(this A source) {
-            return LazyMonad.LazyExtensions.Unit(source.AsMayBe()).AsLazyMayBe();
+            return LazyMonad.LazyExtensions.Unit<MayBe<A>>(source.AsMayBe()).AsLazyMayBe();
         }
         static LazyMayBe<A> Empty<A>() {
-            return LazyMonad.LazyExtensions.Unit(MayBe2Extensions.Empty<A>()).AsLazyMayBe();
+            return LazyMonad.LazyExtensions.Unit<MayBe<A>>(MayBe2Extensions.Empty<A>()).AsLazyMayBe();
         }
         static LazyMayBe<B> SelectMany<A, B>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f) {
             return LazyMonad.LazyExtensions.SelectMany<MayBe<A>, MayBe<B>>(
                 source.Value,
-                x => (x.Value != null ? f(x.Value).Value : LazyMonad.LazyExtensions.Unit(MayBe2Extensions.Empty<B>()))
+                x => (x.Value != null ? f(x.Value).Value : LazyMonad.LazyExtensions.Unit<MayBe<B>>(MayBe2Extensions.Empty<B>()))
             ).AsLazyMayBe();
         }
     }

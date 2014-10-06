@@ -17,10 +17,10 @@ namespace PureSharp.ReaderMonad {
             return source.Unit<E, A>();
         }
 
-        static Func<E, A> Unit<E, A>(this A source) {
+        public static Func<E, A> Unit<E, A>(this A source) {
             return x => source;
         }
-        static Func<E, B> SelectMany<E, A, B>(this Func<E, A> source, Func<A, Func<E, B>> f) {
+        public static Func<E, B> SelectMany<E, A, B>(this Func<E, A> source, Func<A, Func<E, B>> f) {
             return e => f(source(e))(e);
         }
     }

@@ -16,9 +16,10 @@ Generate(rootNameSpace, "MayBeMonad2", "MayBe2Extensions", x => string.Format("M
 Generate(rootNameSpace, "ReaderMonad", "ReaderExtensions", x => string.Format("Func<E, {0}>", x), false, "E, ");
 Generate(rootNameSpace, "WriterMonad", "WriterExtensions", x => string.Format("Writer<W, {0}>", x), false, "W, ", "source.Monoid");
 
-GenerateMayBeT2(rootNameSpace, "Lazy");
+GenerateMayBeT2(rootNameSpace, "Lazy", "Lazy");
+//GenerateMayBeT2(rootNameSpace, "Reader", "Func", "E, ");
 
-GenerateMayBeT(rootNameSpace, "Lazy");
+GenerateMayBeT(rootNameSpace, "Lazy", "Lazy");
 #>
 
 <#+void Generate(string rootNameSpace, string nameSpace, string className, Func<string, string> monadName, bool hasEmpty, string addidional = "", string unitParam = "") {#>
@@ -41,44 +42,44 @@ namespace <#=rootNameSpace#>.<#=nameSpace#> {
 }
 <#+}#>
 
-<#+void GenerateMayBeT2(string rootNameSpace, string monadName) {
+<#+void GenerateMayBeT2(string rootNameSpace, string monadName, string innerContainerName, string addidional = "") {
     string containerName = monadName + "MayBe";
     string extensionClassName = monadName + "Monad." + monadName + "Extensions";
     string namespaceName = monadName + "MayBeMonad2";
     string className = monadName + "MayBe2Extensions";
-    Generate(rootNameSpace, namespaceName, className, x => string.Format("{0}<{1}>", containerName, x), true);
+    Generate(rootNameSpace, namespaceName, className, x => string.Format("{0}<{1}{2}>", containerName, addidional, x), true, addidional);
 #>
 namespace <#=rootNameSpace#>.<#=namespaceName#> {
-    public struct <#=containerName#><A>(<#=monadName#><MayBe<A>> value) {
-        public readonly <#=monadName#><MayBe<A>> Value = value;
+    public struct <#=containerName#><<#=addidional#>A>(<#=innerContainerName#><<#=addidional#>MayBe<A>> value) {
+        public readonly <#=innerContainerName#><<#=addidional#>MayBe<A>> Value = value;
     }
     public static partial class <#=className#> {
-        public static <#=containerName#><A> As<#=containerName#><A>(this <#=monadName#><MayBe<A>> source) {
-            return new <#=containerName#><A>(source);
+        public static <#=containerName#><<#=addidional#>A> As<#=containerName#><<#=addidional#>A>(this <#=innerContainerName#><<#=addidional#>MayBe<A>> source) {
+            return new <#=containerName#><<#=addidional#>A>(source);
         }
-        public static <#=containerName#><A> As<#=containerName#><A>(this A source) {
-            return source.Unit();
+        public static <#=containerName#><<#=addidional#>A> As<#=containerName#><<#=addidional#>A>(this A source) {
+            return source.Unit<<#=addidional#>A>();
         }
-        public static <#=containerName#><A> As<#=containerName#><A>(this MayBe<A> source) {
-            return <#=extensionClassName#>.Unit(source).As<#=containerName#>();
+        public static <#=containerName#><<#=addidional#>A> As<#=containerName#><<#=addidional#>A>(this MayBe<A> source) {
+            return <#=extensionClassName#>.Unit<<#=addidional#>MayBe<A>>(source).As<#=containerName#>();
         }
 
-        static <#=containerName#><A> Unit<A>(this A source) {
-            return <#=extensionClassName#>.Unit(source.AsMayBe()).As<#=containerName#>();
+        static <#=containerName#><<#=addidional#>A> Unit<<#=addidional#>A>(this A source) {
+            return <#=extensionClassName#>.Unit<<#=addidional#>MayBe<A>>(source.AsMayBe()).As<#=containerName#>();
         }
-        static <#=containerName#><A> Empty<A>() {
-            return <#=extensionClassName#>.Unit(MayBe2Extensions.Empty<A>()).As<#=containerName#>();
+        static <#=containerName#><<#=addidional#>A> Empty<<#=addidional#>A>() {
+            return <#=extensionClassName#>.Unit<<#=addidional#>MayBe<A>>(MayBe2Extensions.Empty<A>()).As<#=containerName#>();
         }
-        static <#=containerName#><B> SelectMany<A, B>(this <#=containerName#><A> source, Func<A, <#=containerName#><B>> f) {
-            return <#=extensionClassName#>.SelectMany<MayBe<A>, MayBe<B>>(
+        static <#=containerName#><<#=addidional#>B> SelectMany<<#=addidional#>A, B>(this <#=containerName#><<#=addidional#>A> source, Func<A, <#=containerName#><<#=addidional#>B>> f) {
+            return <#=extensionClassName#>.SelectMany<<#=addidional#>MayBe<A>, MayBe<B>>(
                 source.Value,
-                x => (x.Value != null ? f(x.Value).Value : <#=extensionClassName#>.Unit(MayBe2Extensions.Empty<B>()))
+                x => (x.Value != null ? f(x.Value).Value : <#=extensionClassName#>.Unit<<#=addidional#>MayBe<B>>(MayBe2Extensions.Empty<B>()))
             ).As<#=containerName#>();
         }
     }
 }
 <#+}#>
-<#+void GenerateMayBeT(string rootNameSpace, string monadName) {
+<#+void GenerateMayBeT(string rootNameSpace, string monadName, string innerContainerName) {
     string containerName = monadName + "MayBe";
     string extensionClassName = monadName + "Monad." + monadName + "Extensions";
     string namespaceName = monadName + "MayBeMonad";
