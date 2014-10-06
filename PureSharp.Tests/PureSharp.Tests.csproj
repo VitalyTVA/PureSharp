@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FunctionExtensionsTests.cs" />
-    <Compile Include="LazyMayBeTests.cs" />
+    <Compile Include="Monads\LazyMayBeTests.cs" />
     <Compile Include="Monads\MayBe2Test.cs" />
     <Compile Include="Monads\LazyTests.cs" />
     <Compile Include="ListTests.cs" />
