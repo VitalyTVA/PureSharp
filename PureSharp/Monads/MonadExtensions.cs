@@ -69,6 +69,21 @@ namespace PureSharp.WriterMonad {
     }
 }
 namespace PureSharp.LazyMayBeMonad2 {
+    partial class LazyMayBe2Extensions {
+        public static LazyMayBe<C> SelectMany<A, B, C>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f, Func<A, B, C> resultSelector) {
+            return source.SelectMany(
+                outer => f(outer).SelectMany(
+                inner => resultSelector(outer, inner).Unit<C>()));
+        }
+        public static LazyMayBe<B> Select<A, B>(this LazyMayBe<A> source, Func<A, B> f) {
+            return source.SelectMany(x => f(x).Unit<B>());
+        }
+        public static LazyMayBe<A> Where<A>(this LazyMayBe<A> source, Func<A, bool> f) {
+            return source.SelectMany(x => f(x) ? x.Unit<A>() : Empty<A>());
+        }
+    }
+}
+namespace PureSharp.LazyMayBeMonad2 {
     public struct LazyMayBe<A>(Lazy<MayBe<A>> value) {
         public readonly Lazy<MayBe<A>> Value = value;
     }
@@ -94,21 +109,6 @@ namespace PureSharp.LazyMayBeMonad2 {
                 source.Value,
                 x => (x.Value != null ? f(x.Value).Value : LazyMonad.LazyExtensions.Unit(MayBe2Extensions.Empty<B>()))
             ).AsLazyMayBe();
-        }
-    }
-}
-namespace PureSharp.LazyMayBeMonad2 {
-    partial class LazyMayBe2Extensions {
-        public static LazyMayBe<C> SelectMany<A, B, C>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f, Func<A, B, C> resultSelector) {
-            return source.SelectMany(
-                outer => f(outer).SelectMany(
-                inner => resultSelector(outer, inner).Unit<C>()));
-        }
-        public static LazyMayBe<B> Select<A, B>(this LazyMayBe<A> source, Func<A, B> f) {
-            return source.SelectMany(x => f(x).Unit<B>());
-        }
-        public static LazyMayBe<A> Where<A>(this LazyMayBe<A> source, Func<A, bool> f) {
-            return source.SelectMany(x => f(x) ? x.Unit<A>() : Empty<A>());
         }
     }
 }
