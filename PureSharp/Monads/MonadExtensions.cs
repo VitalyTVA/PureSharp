@@ -1,7 +1,8 @@
 ﻿using System;
+using PureSharp.MayBeMonad2;
+using PureSharp.MayBeMonad;
 
 namespace PureSharp.LazyMonad {
-
     partial class LazyExtensions {
         public static Lazy<C> SelectMany<A, B, C>(this Lazy<A> source, Func<A, Lazy<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -14,7 +15,6 @@ namespace PureSharp.LazyMonad {
     }
 }
 namespace PureSharp.MayBeMonad {
-
     partial class MayBeExtensions {
         public static C SelectMany<A, B, C>(this A source, Func<A, B> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -30,7 +30,6 @@ namespace PureSharp.MayBeMonad {
     }
 }
 namespace PureSharp.MayBeMonad2 {
-
     partial class MayBe2Extensions {
         public static MayBe<C> SelectMany<A, B, C>(this MayBe<A> source, Func<A, MayBe<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -46,7 +45,6 @@ namespace PureSharp.MayBeMonad2 {
     }
 }
 namespace PureSharp.ReaderMonad {
-
     partial class ReaderExtensions {
         public static Func<E, C> SelectMany<E, A, B, C>(this Func<E, A> source, Func<A, Func<E, B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -59,7 +57,6 @@ namespace PureSharp.ReaderMonad {
     }
 }
 namespace PureSharp.WriterMonad {
-
     partial class WriterExtensions {
         public static Writer<W, C> SelectMany<W, A, B, C>(this Writer<W, A> source, Func<A, Writer<W, B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -72,7 +69,6 @@ namespace PureSharp.WriterMonad {
     }
 }
 namespace PureSharp.LazyMayBeMonad2 {
-using PureSharp.MayBeMonad2;
     partial class LazyMayBe2Extensions {
         public static LazyMayBe<C> SelectMany<A, B, C>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
@@ -88,7 +84,6 @@ using PureSharp.MayBeMonad2;
     }
 }
 namespace PureSharp.LazyMayBeMonad {
-using PureSharp.MayBeMonad;
     partial class LazyMayBeExtensions {
         public static LazyMayBe<C> SelectMany<A, B, C>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
