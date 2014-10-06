@@ -42,20 +42,23 @@ namespace <#=rootNameSpace#>.<#=nameSpace#> {
 }
 <#+}#>
 
-<#+void GenerateMayBeT2(string monadName) {#>
+<#+void GenerateMayBeT2(string monadName) {
+    string containerName = monadName + "MayBe";
+    string extensionClassName = monadName + "Monad." + monadName + "Extensions";
+#>
 namespace PureSharp.<#=monadName#>MayBeMonad2 {
     public static partial class <#=monadName#>MayBe2Extensions {
-        static <#=monadName#>MayBe<A> Unit<A>(this A source) {
-            return <#=monadName#>Monad.<#=monadName#>Extensions.Unit(source.AsMayBe()).As<#=monadName#>MayBe();
+        static <#=containerName#><A> Unit<A>(this A source) {
+            return <#=extensionClassName#>.Unit(source.AsMayBe()).As<#=containerName#>();
         }
-        static <#=monadName#>MayBe<A> Empty<A>() {
-            return <#=monadName#>Monad.<#=monadName#>Extensions.Unit(MayBe2Extensions.Empty<A>()).As<#=monadName#>MayBe();
+        static <#=containerName#><A> Empty<A>() {
+            return <#=extensionClassName#>.Unit(MayBe2Extensions.Empty<A>()).As<#=containerName#>();
         }
-        static <#=monadName#>MayBe<B> SelectMany<A, B>(this <#=monadName#>MayBe<A> source, Func<A, <#=monadName#>MayBe<B>> f) {
-            return <#=monadName#>Monad.<#=monadName#>Extensions.SelectMany<MayBe<A>, MayBe<B>>(
+        static <#=containerName#><B> SelectMany<A, B>(this <#=containerName#><A> source, Func<A, <#=containerName#><B>> f) {
+            return <#=extensionClassName#>.SelectMany<MayBe<A>, MayBe<B>>(
                 source.Value,
-                x => (x.Value != null ? f(x.Value).Value : <#=monadName#>Monad.<#=monadName#>Extensions.As<#=monadName#>(MayBe2Extensions.Empty<B>()))
-            ).As<#=monadName#>MayBe();
+                x => (x.Value != null ? f(x.Value).Value : <#=extensionClassName#>.Unit(MayBe2Extensions.Empty<B>()))
+            ).As<#=containerName#>();
         }
     }
 }

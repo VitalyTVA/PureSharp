@@ -79,7 +79,7 @@ namespace PureSharp.LazyMayBeMonad2 {
         static LazyMayBe<B> SelectMany<A, B>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f) {
             return LazyMonad.LazyExtensions.SelectMany<MayBe<A>, MayBe<B>>(
                 source.Value,
-                x => (x.Value != null ? f(x.Value).Value : LazyMonad.LazyExtensions.AsLazy(MayBe2Extensions.Empty<B>()))
+                x => (x.Value != null ? f(x.Value).Value : LazyMonad.LazyExtensions.Unit(MayBe2Extensions.Empty<B>()))
             ).AsLazyMayBe();
         }
     }
