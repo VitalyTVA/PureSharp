@@ -90,15 +90,15 @@ using PureSharp.MayBeMonad2;
 namespace PureSharp.LazyMayBeMonad {
 using PureSharp.MayBeMonad;
     partial class LazyMayBeExtensions {
-        public static Lazy<C> SelectMany<A, B, C>(this Lazy<A> source, Func<A, Lazy<B>> f, Func<A, B, C> resultSelector) {
+        public static LazyMayBe<C> SelectMany<A, B, C>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
                 outer => f(outer).SelectMany(
                 inner => resultSelector(outer, inner).Unit<C>()));
         }
-        public static Lazy<B> Select<A, B>(this Lazy<A> source, Func<A, B> f) {
+        public static LazyMayBe<B> Select<A, B>(this LazyMayBe<A> source, Func<A, B> f) {
             return source.SelectMany(x => f(x).Unit<B>());
         }
-        public static Lazy<A> Where<A>(this Lazy<A> source, Func<A, bool> f) {
+        public static LazyMayBe<A> Where<A>(this LazyMayBe<A> source, Func<A, bool> f) {
             return source.SelectMany(x => f(x) ? x.Unit<A>() : Empty<A>());
         }
     }

@@ -1,17 +1,20 @@
 ﻿using System;
 using NUnit.Framework;
+using PureSharp.LazyMonad;
 using PureSharp.Tests.Utils;
-using LazyMayBeInt = System.Lazy<int?>;
+using LazyMayBeInt = PureSharp.LazyMayBeMonad.LazyMayBe<int?>;
 
 namespace PureSharp.Tests {
     using LazyMayBeMonad;
     [TestFixture]
     public partial class LazyMayBeTests {
-        Lazy<T> AsLazy<T>(Func<T> lazy) {
-            return PureSharp.LazyMonad.LazyExtensions.AsLazy(lazy);
-        }
         [Test]
         public void MayBeTransfromerTest() {
+            LazyMayBeInt q1 = ((int?)1).AsLazyM();
+            q1.Value.Value.IsEqual<int?>(1);
+            q1 = ((int?)1).AsLazy().AsLazyMayBe();
+            q1.Value.Value.IsEqual<int?>(1);
+
             int value1GetCount = 0;
             int? value1 = null;
             Func<int?> f1 = () => {
@@ -26,45 +29,40 @@ namespace PureSharp.Tests {
                 return value2;
             };
 
-            var res = Sum(AsLazy(f1), AsLazy(f2));
-            res.Value.IsEqual<int?>(null);
+            var res = Sum(f1.AsLazyMayBe(), f2.AsLazyMayBe());
+            res.Value.Value.IsEqual<int?>(null);
             value1GetCount.IsEqual(1);
             value2GetCount.IsEqual(0);
 
             value1 = 2;
-            res = Sum(AsLazy(f1), AsLazy(f2));
-            res.Value.IsEqual<int?>(null);
+            res = Sum(f1.AsLazyMayBe(), f2.AsLazyMayBe());
+            res.Value.Value.IsEqual<int?>(null);
             value1GetCount.IsEqual(2);
             value2GetCount.IsEqual(1);
 
             value2 = 3;
-            res = Sum(AsLazy(f1), AsLazy(f2));
-            res.Value.IsEqual<int?>(5);
+            res = Sum(f1.AsLazyMayBe(), f2.AsLazyMayBe());
+            res.Value.Value.IsEqual<int?>(5);
             value1GetCount.IsEqual(3);
             value2GetCount.IsEqual(2);
 
             value1 = null;
-            res = Sum(AsLazy(f1), AsLazy(f2));
-            res.Value.IsEqual<int?>(null);
+            res = Sum(f1.AsLazyMayBe(), f2.AsLazyMayBe());
+            res.Value.Value.IsEqual<int?>(null);
             value1GetCount.IsEqual(4);
             value2GetCount.IsEqual(2);
 
-            SumWhere(AsLazy(f1), AsLazy(f2)).Value.IsEqual<int?>(null);
+            SumWhere(f1.AsLazyMayBe(), f2.AsLazyMayBe()).Value.Value.IsEqual<int?>(null);
             value1 = 4;
-            SumWhere(AsLazy(f1), AsLazy(f2)).Value.IsEqual<int?>(7);
+            SumWhere(f1.AsLazyMayBe(), f2.AsLazyMayBe()).Value.Value.IsEqual<int?>(7);
             value1 = 2;
-            SumWhere(AsLazy(f1), AsLazy(f2)).Value.IsEqual<int?>(null);
+            SumWhere(f1.AsLazyMayBe(), f2.AsLazyMayBe()).Value.Value.IsEqual<int?>(null);
         }
         LazyMayBeInt Sum(LazyMayBeInt a, LazyMayBeInt b) {
             return from x in a
                    from y in b
                    select x + y;
         }
-    }
-}
-namespace PureSharp.Tests {
-    using LazyMayBeMonad;
-    partial class LazyMayBeTests {
         LazyMayBeInt SumWhere(LazyMayBeInt a, LazyMayBeInt b) {
             return from x in a
                    from y in b
