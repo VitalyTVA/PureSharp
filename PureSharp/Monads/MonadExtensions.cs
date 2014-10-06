@@ -112,6 +112,50 @@ namespace PureSharp.LazyMayBeMonad2 {
         }
     }
 }
+namespace PureSharp.ReaderMayBeMonad2 {
+    partial class ReaderMayBe2Extensions {
+        public static ReaderMayBe<E, C> SelectMany<E, A, B, C>(this ReaderMayBe<E, A> source, Func<A, ReaderMayBe<E, B>> f, Func<A, B, C> resultSelector) {
+            return source.SelectMany(
+                outer => f(outer).SelectMany(
+                inner => resultSelector(outer, inner).Unit<E, C>()));
+        }
+        public static ReaderMayBe<E, B> Select<E, A, B>(this ReaderMayBe<E, A> source, Func<A, B> f) {
+            return source.SelectMany(x => f(x).Unit<E, B>());
+        }
+        public static ReaderMayBe<E, A> Where<E, A>(this ReaderMayBe<E, A> source, Func<A, bool> f) {
+            return source.SelectMany(x => f(x) ? x.Unit<E, A>() : Empty<E, A>());
+        }
+    }
+}
+namespace PureSharp.ReaderMayBeMonad2 {
+    public struct ReaderMayBe<E, A>(Func<E, MayBe<A>> value) {
+        public readonly Func<E, MayBe<A>> Value = value;
+    }
+    public static partial class ReaderMayBe2Extensions {
+        public static ReaderMayBe<E, A> AsReaderMayBe<E, A>(this Func<E, MayBe<A>> source) {
+            return new ReaderMayBe<E, A>(source);
+        }
+        public static ReaderMayBe<E, A> AsReaderMayBe<E, A>(this A source) {
+            return source.Unit<E, A>();
+        }
+        public static ReaderMayBe<E, A> AsReaderMayBe<E, A>(this MayBe<A> source) {
+            return ReaderMonad.ReaderExtensions.Unit<E, MayBe<A>>(source).AsReaderMayBe();
+        }
+
+        static ReaderMayBe<E, A> Unit<E, A>(this A source) {
+            return ReaderMonad.ReaderExtensions.Unit<E, MayBe<A>>(source.AsMayBe()).AsReaderMayBe();
+        }
+        static ReaderMayBe<E, A> Empty<E, A>() {
+            return ReaderMonad.ReaderExtensions.Unit<E, MayBe<A>>(MayBe2Extensions.Empty<A>()).AsReaderMayBe();
+        }
+        static ReaderMayBe<E, B> SelectMany<E, A, B>(this ReaderMayBe<E, A> source, Func<A, ReaderMayBe<E, B>> f) {
+            return ReaderMonad.ReaderExtensions.SelectMany<E, MayBe<A>, MayBe<B>>(
+                source.Value,
+                x => (x.Value != null ? f(x.Value).Value : ReaderMonad.ReaderExtensions.Unit<E, MayBe<B>>(MayBe2Extensions.Empty<B>()))
+            ).AsReaderMayBe();
+        }
+    }
+}
 namespace PureSharp.LazyMayBeMonad {
     partial class LazyMayBeExtensions {
         public static LazyMayBe<C> SelectMany<A, B, C>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f, Func<A, B, C> resultSelector) {

@@ -17,7 +17,7 @@ Generate(rootNameSpace, "ReaderMonad", "ReaderExtensions", x => string.Format("F
 Generate(rootNameSpace, "WriterMonad", "WriterExtensions", x => string.Format("Writer<W, {0}>", x), false, "W, ", "source.Monoid");
 
 GenerateMayBeT2(rootNameSpace, "Lazy", "Lazy");
-//GenerateMayBeT2(rootNameSpace, "Reader", "Func", "E, ");
+GenerateMayBeT2(rootNameSpace, "Reader", "Func", "E, ");
 
 GenerateMayBeT(rootNameSpace, "Lazy", "Lazy");
 #>
@@ -35,7 +35,7 @@ namespace <#=rootNameSpace#>.<#=nameSpace#> {
         }
 <#+if(hasEmpty) {#>
         public static <#=monadName("A")#> Where<<#=addidional#>A>(this <#=monadName("A")#> source, Func<A, bool> f) {
-            return source.SelectMany(x => f(x) ? x.Unit<<#=addidional#>A>(<#=unitParam#>) : Empty<A>());
+            return source.SelectMany(x => f(x) ? x.Unit<<#=addidional#>A>(<#=unitParam#>) : Empty<<#=addidional#>A>());
         }
 <#+}#>
     }
