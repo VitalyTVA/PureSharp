@@ -74,15 +74,15 @@ namespace PureSharp.WriterMonad {
 namespace PureSharp.LazyMayBeMonad2 {
 using PureSharp.MayBeMonad2;
     partial class LazyMayBe2Extensions {
-        public static Lazy<MayBe<C>> SelectMany<A, B, C>(this Lazy<MayBe<A>> source, Func<A, Lazy<MayBe<B>>> f, Func<A, B, C> resultSelector) {
+        public static LazyMayBe<C> SelectMany<A, B, C>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
                 outer => f(outer).SelectMany(
                 inner => resultSelector(outer, inner).Unit<C>()));
         }
-        public static Lazy<MayBe<B>> Select<A, B>(this Lazy<MayBe<A>> source, Func<A, B> f) {
+        public static LazyMayBe<B> Select<A, B>(this LazyMayBe<A> source, Func<A, B> f) {
             return source.SelectMany(x => f(x).Unit<B>());
         }
-        public static Lazy<MayBe<A>> Where<A>(this Lazy<MayBe<A>> source, Func<A, bool> f) {
+        public static LazyMayBe<A> Where<A>(this LazyMayBe<A> source, Func<A, bool> f) {
             return source.SelectMany(x => f(x) ? x.Unit<A>() : Empty<A>());
         }
     }
