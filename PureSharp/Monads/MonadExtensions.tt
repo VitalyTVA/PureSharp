@@ -18,8 +18,7 @@ Generate(rootNameSpace, "WriterMonad", "WriterExtensions", x => string.Format("W
 
 GenerateMayBeT2(rootNameSpace, "Lazy");
 
-GenerateMayBeT("Lazy");
-Generate(rootNameSpace, "LazyMayBeMonad", "LazyMayBeExtensions", x => string.Format("LazyMayBe<{0}>", x), true);
+GenerateMayBeT(rootNameSpace, "Lazy");
 #>
 
 <#+void Generate(string rootNameSpace, string nameSpace, string className, Func<string, string> monadName, bool hasEmpty, string addidional = "", string unitParam = "") {#>
@@ -49,7 +48,7 @@ namespace <#=rootNameSpace#>.<#=nameSpace#> {
     string className = monadName + "MayBe2Extensions";
     Generate(rootNameSpace, namespaceName, className, x => string.Format("{0}<{1}>", containerName, x), true);
 #>
-namespace PureSharp.<#=namespaceName#> {
+namespace <#=rootNameSpace#>.<#=namespaceName#> {
     public struct <#=containerName#><A>(<#=monadName#><MayBe<A>> value) {
         public readonly <#=monadName#><MayBe<A>> Value = value;
     }
@@ -79,11 +78,14 @@ namespace PureSharp.<#=namespaceName#> {
     }
 }
 <#+}#>
-<#+void GenerateMayBeT(string monadName) {
+<#+void GenerateMayBeT(string rootNameSpace, string monadName) {
     string containerName = monadName + "MayBe";
     string extensionClassName = monadName + "Monad." + monadName + "Extensions";
+    string namespaceName = monadName + "MayBeMonad";
+    string className = monadName + "MayBeExtensions";
+    Generate(rootNameSpace, namespaceName, className, x => string.Format("{0}<{1}>", containerName, x), true);
 #>
-namespace PureSharp.<#=monadName#>MayBeMonad {
+namespace <#=rootNameSpace#>.<#=monadName#>MayBeMonad {
     public struct <#=containerName#><A>(<#=monadName#><A> value) {
         public readonly <#=monadName#><A> Value = value;
     }
