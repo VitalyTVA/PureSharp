@@ -55,6 +55,12 @@ namespace PureSharp.<#=monadName#>MayBeMonad2 {
         public static <#=containerName#><A> As<#=containerName#><A>(this <#=monadName#><MayBe<A>> source) {
             return new <#=containerName#><A>(source);
         }
+        public static <#=containerName#><A> As<#=containerName#><A>(this A source) {
+            return source.Unit();
+        }
+        public static <#=containerName#><A> As<#=containerName#><A>(this MayBe<A> source) {
+            return <#=extensionClassName#>.Unit(source).As<#=containerName#>();
+        }
 
         static <#=containerName#><A> Unit<A>(this A source) {
             return <#=extensionClassName#>.Unit(source.AsMayBe()).As<#=containerName#>();
@@ -82,6 +88,9 @@ namespace PureSharp.<#=monadName#>MayBeMonad {
     public static partial class <#=monadName#>MayBeExtensions {
         public static <#=containerName#><A> As<#=containerName#><A>(this <#=monadName#><A> source) {
             return new <#=containerName#><A>(source);
+        }
+        public static <#=containerName#><A> As<#=containerName#><A>(this A source) {
+            return source.Unit();
         }
 
         static <#=containerName#><A> Unit<A>(this A source) {
