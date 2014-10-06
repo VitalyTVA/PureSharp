@@ -16,7 +16,9 @@ Generate(rootNameSpace, "MayBeMonad2", "MayBe2Extensions", x => string.Format("M
 Generate(rootNameSpace, "ReaderMonad", "ReaderExtensions", x => string.Format("Func<E, {0}>", x), false, "E, ");
 Generate(rootNameSpace, "WriterMonad", "WriterExtensions", x => string.Format("Writer<W, {0}>", x), false, "W, ", "source.Monoid");
 
+GenerateMayBeT2("Lazy");
 Generate(rootNameSpace, "LazyMayBeMonad2", "LazyMayBe2Extensions", x => string.Format("LazyMayBe<{0}>", x), true);
+
 Generate(rootNameSpace, "LazyMayBeMonad", "LazyMayBeExtensions", x => string.Format("LazyMayBe<{0}>", x), true);
 #>
 
@@ -36,6 +38,25 @@ namespace <#=rootNameSpace#>.<#=nameSpace#> {
             return source.SelectMany(x => f(x) ? x.Unit<<#=addidional#>A>(<#=unitParam#>) : Empty<A>());
         }
 <#+}#>
+    }
+}
+<#+}#>
+
+<#+void GenerateMayBeT2(string monadName) {#>
+namespace PureSharp.<#=monadName#>MayBeMonad2 {
+    public static partial class <#=monadName#>MayBe2Extensions {
+        static <#=monadName#>MayBe<A> Unit<A>(this A source) {
+            return <#=monadName#>Monad.<#=monadName#>Extensions.Unit(source.AsMayBe()).As<#=monadName#>MayBe();
+        }
+        static <#=monadName#>MayBe<A> Empty<A>() {
+            return <#=monadName#>Monad.<#=monadName#>Extensions.Unit(MayBe2Extensions.Empty<A>()).As<#=monadName#>MayBe();
+        }
+        static <#=monadName#>MayBe<B> SelectMany<A, B>(this <#=monadName#>MayBe<A> source, Func<A, <#=monadName#>MayBe<B>> f) {
+            return <#=monadName#>Monad.<#=monadName#>Extensions.SelectMany<MayBe<A>, MayBe<B>>(
+                source.Value,
+                x => (x.Value != null ? f(x.Value).Value : <#=monadName#>Monad.<#=monadName#>Extensions.As<#=monadName#>(MayBe2Extensions.Empty<B>()))
+            ).As<#=monadName#>MayBe();
+        }
     }
 }
 <#+}#>

@@ -69,6 +69,22 @@ namespace PureSharp.WriterMonad {
     }
 }
 namespace PureSharp.LazyMayBeMonad2 {
+    public static partial class LazyMayBe2Extensions {
+        static LazyMayBe<A> Unit<A>(this A source) {
+            return LazyMonad.LazyExtensions.Unit(source.AsMayBe()).AsLazyMayBe();
+        }
+        static LazyMayBe<A> Empty<A>() {
+            return LazyMonad.LazyExtensions.Unit(MayBe2Extensions.Empty<A>()).AsLazyMayBe();
+        }
+        static LazyMayBe<B> SelectMany<A, B>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f) {
+            return LazyMonad.LazyExtensions.SelectMany<MayBe<A>, MayBe<B>>(
+                source.Value,
+                x => (x.Value != null ? f(x.Value).Value : LazyMonad.LazyExtensions.AsLazy(MayBe2Extensions.Empty<B>()))
+            ).AsLazyMayBe();
+        }
+    }
+}
+namespace PureSharp.LazyMayBeMonad2 {
     partial class LazyMayBe2Extensions {
         public static LazyMayBe<C> SelectMany<A, B, C>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f, Func<A, B, C> resultSelector) {
             return source.SelectMany(
