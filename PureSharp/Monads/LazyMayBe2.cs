@@ -21,10 +21,10 @@ namespace PureSharp.LazyMayBeMonad2 {
         }
 
         static LazyMayBe<A> Unit<A>(this A source) {
-            return source.AsMayBe().AsLazy().AsLazyMayBe();
+            return LazyMonad.LazyExtensions.Unit(source.AsMayBe()).AsLazyMayBe();
         }
         static LazyMayBe<A> Empty<A>() {
-            return MayBe2Extensions.Empty<A>().AsLazyMayBe();
+            return LazyMonad.LazyExtensions.Unit(MayBe2Extensions.Empty<A>()).AsLazyMayBe();
         }
         static LazyMayBe<B> SelectMany<A, B>(this LazyMayBe<A> source, Func<A, LazyMayBe<B>> f) {
             return LazyMonad.LazyExtensions.SelectMany<MayBe<A>, MayBe<B>>(
