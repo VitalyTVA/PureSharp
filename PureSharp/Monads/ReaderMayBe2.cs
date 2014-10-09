@@ -9,7 +9,7 @@ namespace PureSharp.ReaderMayBeMonad2 {
             return ReaderExtensions.Ask<A>().LiftMayBe().AsReaderMayBe();
         }
         public static ReaderMayBe<E, A> Local<E, A>(Func<E, E> f, ReaderMayBe<E, A> reader) {
-            return f.Pipe(reader.Value).AsReaderMayBe();
+            return ReaderExtensions.Local(f, reader.Value).AsReaderMayBe();
         }
     }
 }
