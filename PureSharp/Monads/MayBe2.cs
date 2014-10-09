@@ -5,6 +5,9 @@ namespace PureSharp.MayBeMonad2 {
         public T Value { get; private set; } = value;
     }
     public static partial class MayBe2Extensions {
+        public static Func<A, MayBe<B>> LiftMayBe<A, B>(this Func<A, B> f) {
+            return x => f(x).Unit();
+        }
         public static MayBe<A> AsMayBe<A>(this A source) {
             return source.Unit();
         }
