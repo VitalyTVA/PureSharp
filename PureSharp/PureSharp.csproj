@@ -64,6 +64,7 @@
       <DependentUpon>MonadExtensions.tt</DependentUpon>
     </Compile>
     <Compile Include="Monads\Reader.cs" />
+    <Compile Include="Monads\ReaderMayBe2.cs" />
     <Compile Include="Monads\Writer.cs" />
     <Compile Include="Monoid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

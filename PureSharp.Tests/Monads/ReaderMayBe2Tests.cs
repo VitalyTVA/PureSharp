@@ -4,6 +4,7 @@ using PureSharp.ReaderMonad;
 using PureSharp.MayBeMonad2;
 using PureSharp.ReaderMayBeMonad2;
 using PureSharp.ReaderMonad.ReaderExtensions;
+using PureSharp.ReaderMayBeMonad2.ReaderMayBe2Extensions;
 using System;
 using ReaderMayBeString = PureSharp.ReaderMayBeMonad2.ReaderMayBe<string, string>;
 
@@ -41,18 +42,18 @@ namespace PureSharp.Tests {
         }
 
         static ReaderMayBeString AskTest() {
-            return from x in Ask<string>().LiftMayBe().AsReaderMayBe()
+            return from x in AskMayBe<string>()
                    select x.ToUpper();
         }
         static ReaderMayBeString Sum(ReaderMayBeString a) {
-            return from x in Ask<string>().LiftMayBe().AsReaderMayBe()
+            return from x in AskMayBe<string>()
                    from y in a
                    let t = x + y
                    select t.ToUpper();
         }
-        //static Func<string, string> Test2(Func<string, string> a) {
+        //static ReaderMayBeString Sum2(ReaderMayBeString a) {
         //    return from x in Ask<string>()
-        //           from y in Local(e => e + e, Test(a))
+        //           from y in Local<string, string>(e => e + e, Sum(a)).LiftMayBe().AsReaderMayBe()
         //           from z in a
         //           select x.ToUpper() + y + z;
         //}
