@@ -16,24 +16,11 @@ namespace PureSharp.Tests {
             AskTest().Value("x").Value.IsEqual<string>("X");
             Simple("x".AsReaderMayBe<string, string>()).Value("").Value.IsEqual<string>("X");
             Sum("x".AsReaderMayBe<string, string>()).Value("y").Value.IsEqual<string>("YX");
-            //Test()("a").IsEqual("A");
-
-            //string value = string.Empty;
-            //var reader = Test(x => value);
-            //value = "b";
-            //reader("a").IsEqual("AB");
-            //value = "c";
-            //reader("a").IsEqual("AC");
-
-            //reader = Test(value.AsReader<string, string>());
-            //value = "d";
-            //reader("a").IsEqual("AC");
-
-            //reader = Local(e => e + e, Test(x => value));
-            //reader("a").IsEqual("AAD");
-
-            //reader = Test2(x => value);
-            //reader("b").IsEqual("BBBDd");
+            Sum2("x".AsReaderMayBe<string, string>()).Value("y").Value.IsEqual<string>("YYYXx");
+            Sum2("d".AsReaderMayBe<string, string>()).Value("y").Value.IsNull<string>();
+            string nullString = null;
+            Sum2(nullString.AsReaderMayBe<string, string>()).Value("y").Value.IsNull<string>();
+            Sum2("d".AsReaderMayBe<string, string>()).Value(null).Value.IsNull<string>();
         }
 
         static ReaderMayBeString Simple(ReaderMayBeString a) {
@@ -51,11 +38,12 @@ namespace PureSharp.Tests {
                    let t = x + y
                    select t.ToUpper();
         }
-        //static ReaderMayBeString Sum2(ReaderMayBeString a) {
-        //    return from x in Ask<string>()
-        //           from y in Local<string, string>(e => e + e, Sum(a)).LiftMayBe().AsReaderMayBe()
-        //           from z in a
-        //           select x.ToUpper() + y + z;
-        //}
+        static ReaderMayBeString Sum2(ReaderMayBeString a) {
+            return from x in AskMayBe<string>()
+                   from y in LocalMayBe<string, string>(e => e + e, Sum(a))
+                   from z in a
+                   where z != "d"
+                   select x.ToUpper() + y + z;
+        }
     }
 }

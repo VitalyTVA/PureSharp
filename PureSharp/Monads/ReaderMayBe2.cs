@@ -8,5 +8,9 @@ namespace PureSharp.ReaderMayBeMonad2 {
         public static ReaderMayBe<A, A> AskMayBe<A>() {
             return Ask<A>().LiftMayBe().AsReaderMayBe();
         }
+        public static ReaderMayBe<E, A> LocalMayBe<E, A>(Func<E, E> f, ReaderMayBe<E, A> reader) {
+            Func<E, MayBe<A>> t = x => reader.Value(f(x));
+            return t.AsReaderMayBe();
+        }
     }
 }
