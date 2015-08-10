@@ -11,9 +11,9 @@ namespace PureSharp.Tests {
         [Test]
         public void MayBeTransfromerTest() {
             LazyMayBeInt q1 = ((int?)1).AsLazyMayBe();
-            q1.Value.Value.IsEqual<int?>(1);
+            q1.Value.Value.IsEqual(1);
             q1 = ((int?)1).AsLazy().AsLazyMayBe();
-            q1.Value.Value.IsEqual<int?>(1);
+            q1.Value.Value.IsEqual(1);
 
             int value1GetCount = 0;
             int? value1 = null;
