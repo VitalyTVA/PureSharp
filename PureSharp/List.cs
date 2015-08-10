@@ -1,7 +1,7 @@
 ﻿using System;
-using PureSharp.F;
-using PureSharp.LazyExtensions;
-using PureSharp.Int32Functions;
+using static PureSharp.F;
+using static PureSharp.LazyExtensions;
+using static PureSharp.Int32Functions;
 using System.Collections.Generic;
 
 namespace PureSharp {
@@ -20,15 +20,19 @@ namespace PureSharp {
             bool IList<T>.IsEmpty { get { return true; } }
         }
 
-        class SimpleList<T>(T head, IList<T> tail) : IList<T> {
-            public T Head { get; } = head;
-            public IList<T> Tail { get; } = tail;
+        class SimpleList<T> : IList<T> {
+            public T Head { get; }
+            public IList<T> Tail { get; }
             public bool IsEmpty { get { return false; } }
+            public SimpleList(T head, IList<T> tail) {
+                Head = head;
+                Tail = tail;
+            }
         }
 
-        class LazyList<T>(Lazy<T> head_, Lazy<IList<T>> tail_) : IList<T> {
-            readonly Lazy<T> head = head_;
-            readonly Lazy<IList<T>> tail = tail_;
+        class LazyList<T> : IList<T> {
+            readonly Lazy<T> head;
+            readonly Lazy<IList<T>> tail;
 
             public T Head {
                 get {
@@ -43,6 +47,11 @@ namespace PureSharp {
                 }
             }
             public bool IsEmpty { get { return this.tail.Value == null; } }
+
+            public LazyList(Lazy<T> head_, Lazy<IList<T>> tail_) {
+                head = head_;
+                tail = tail_; 
+            }
 
             public LazyList(Func<T> head, Func<IList<T>> tail)
                : this(Lazy(head), Lazy(tail)) { }

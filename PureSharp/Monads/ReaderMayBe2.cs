@@ -1,7 +1,7 @@
 ﻿using System;
 using PureSharp.MayBeMonad2;
 using PureSharp.ReaderMonad;
-using PureSharp.F;
+using static PureSharp.F;
 
 namespace PureSharp.ReaderMayBeMonad2 {
     public static partial class ReaderMayBe2Extensions {

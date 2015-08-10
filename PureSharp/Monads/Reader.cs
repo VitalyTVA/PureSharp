@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PureSharp.F;
+using static PureSharp.F;
 
 namespace PureSharp.ReaderMonad {
     public static partial class ReaderExtensions {

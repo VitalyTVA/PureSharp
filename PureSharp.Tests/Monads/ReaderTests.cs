@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using PureSharp.Tests.Utils;
 using PureSharp.ReaderMonad;
-using PureSharp.ReaderMonad.ReaderExtensions;
+using static PureSharp.ReaderMonad.ReaderExtensions;
 using System;
 
 namespace PureSharp.Tests {

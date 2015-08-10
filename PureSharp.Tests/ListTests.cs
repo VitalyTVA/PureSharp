@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using PureSharp.Extensions;
-using PureSharp.List;
+using static PureSharp.List;
 using PureSharp.Tests.Utils;
 
 namespace PureSharp.Tests {
@@ -86,12 +86,14 @@ namespace PureSharp.Tests {
         }
         [Test]
         public void MapMemoryTest() {
-            var mappedList = MapMemoryCore(Map<int, int>(), out IList<WeakReference> references);
+            IList<WeakReference> references;
+            var mappedList = MapMemoryCore(Map<int, int>(), out references);
             references.AssertAllCollected();
         }
         [Test]
         public void LazyMapMemoryTest() {
-            var mappedList = MapMemoryCore(MapLazy<int, int>(), out IList<WeakReference> references);
+            IList<WeakReference> references;
+            var mappedList = MapMemoryCore(MapLazy<int, int>(), out references);
             references.AssertAllAlive();
             mappedList.Force();
             references.AssertAllCollected();
@@ -169,14 +171,16 @@ namespace PureSharp.Tests {
         }
         [Test]
         public void LazyConcatMemoryTest1() {
-            var concatenated = CollectReferencesAndModifyList(x => x.ConcatLazy(3.Cons(4.Cons(Empty<int>()))), out IList<WeakReference> references);
+            IList<WeakReference> references;
+            var concatenated = CollectReferencesAndModifyList(x => x.ConcatLazy(3.Cons(4.Cons(Empty<int>()))), out references);
             references.AssertAllAlive();
             concatenated.Force();
             references.AssertAllCollected();
         }
         [Test]
         public void LazyConcatMemoryTest2() {
-            var concatenated = CollectReferencesAndModifyList(x => 3.Cons(4.Cons(Empty<int>())).ConcatLazy(x), out IList<WeakReference> references);
+            IList<WeakReference> references;
+            var concatenated = CollectReferencesAndModifyList(x => 3.Cons(4.Cons(Empty<int>())).ConcatLazy(x), out references);
             references.AssertAllAlive();
             concatenated.Force();
             references.AssertAllAlive();

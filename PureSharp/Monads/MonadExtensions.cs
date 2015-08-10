@@ -84,8 +84,11 @@ namespace PureSharp.LazyMayBeMonad2 {
     }
 }
 namespace PureSharp.LazyMayBeMonad2 {
-    public struct LazyMayBe<A>(Lazy<MayBe<A>> value) {
-        public readonly Lazy<MayBe<A>> Value = value;
+    public struct LazyMayBe<A> {
+        public readonly Lazy<MayBe<A>> Value;
+        public LazyMayBe(Lazy<MayBe<A>> value) {
+            Value = value;
+        }
     }
     public static partial class LazyMayBe2Extensions {
         public static LazyMayBe<A> AsLazyMayBe<A>(this Lazy<MayBe<A>> source) {
@@ -128,8 +131,11 @@ namespace PureSharp.ReaderMayBeMonad2 {
     }
 }
 namespace PureSharp.ReaderMayBeMonad2 {
-    public struct ReaderMayBe<E, A>(Func<E, MayBe<A>> value) {
-        public readonly Func<E, MayBe<A>> Value = value;
+    public struct ReaderMayBe<E, A> {
+        public readonly Func<E, MayBe<A>> Value;
+        public ReaderMayBe(Func<E, MayBe<A>> value) {
+            Value = value;
+        }
     }
     public static partial class ReaderMayBe2Extensions {
         public static ReaderMayBe<E, A> AsReaderMayBe<E, A>(this Func<E, MayBe<A>> source) {
@@ -172,8 +178,11 @@ namespace PureSharp.LazyMayBeMonad {
     }
 }
 namespace PureSharp.LazyMayBeMonad {
-    public struct LazyMayBe<A>(Lazy<A> value) {
-        public readonly Lazy<A> Value = value;
+    public struct LazyMayBe<A> {
+        public readonly Lazy<A> Value;
+        public LazyMayBe(Lazy<A> value) {
+            Value = value;
+        }
     }
     public static partial class LazyMayBeExtensions {
         public static LazyMayBe<A> AsLazyMayBe<A>(this Lazy<A> source) {

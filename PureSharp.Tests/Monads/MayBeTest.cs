@@ -88,7 +88,7 @@ namespace PureSharp.Tests {
              from b in (string)null
              select a.ToString() + b).IsEqual<string>(null);
 
-            (var x = from a in (int?)1
+            var x = (from a in (int?)1
              from b in (byte?)2
              let c = a * 2
              select (long)c + b).IsEqual<long?>(4);

@@ -1,8 +1,11 @@
 ﻿using System;
 
 namespace PureSharp.MayBeMonad2 {
-    public struct MayBe<T>(T value) {
-        public T Value { get; private set; } = value;
+    public struct MayBe<T> {
+        public T Value { get; }
+        public MayBe(T value) {
+            Value = value;
+        }
     }
     public static partial class MayBe2Extensions {
         public static Func<A, MayBe<B>> LiftMayBe<A, B>(this Func<A, B> f) {

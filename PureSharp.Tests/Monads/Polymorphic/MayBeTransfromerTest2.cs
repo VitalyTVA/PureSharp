@@ -56,11 +56,13 @@ namespace PureSharp.MayBeTransformer2 {
             return PureSharp.LazyMonad.LazyExtensions.AsLazy(value);
         }
     }
-    public struct MayBeT<A>(object innerMonadicValue, IMonad monad) {
+    public struct MayBeT<A> {
         public object InnerMonadicValue { get; private set; }
-        = innerMonadicValue;
         public IMonad Monad { get; private set; }
-        = monad;
+        public MayBeT(object innerMonadicValue, IMonad monad) {
+            InnerMonadicValue = innerMonadicValue;
+            Monad = monad;
+        }
     }
     public static partial class MayBeTExtensions2 {
         public static TMonad RunMayBeT<A, TMonad>(this MayBeT<A> source) {

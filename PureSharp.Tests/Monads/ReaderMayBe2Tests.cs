@@ -3,7 +3,7 @@ using PureSharp.Tests.Utils;
 using PureSharp.ReaderMonad;
 using PureSharp.MayBeMonad2;
 using PureSharp.ReaderMayBeMonad2;
-using PureSharp.ReaderMayBeMonad2.ReaderMayBe2Extensions;
+using static PureSharp.ReaderMayBeMonad2.ReaderMayBe2Extensions;
 using System;
 using ReaderMayBeString = PureSharp.ReaderMayBeMonad2.ReaderMayBe<string, string>;
 

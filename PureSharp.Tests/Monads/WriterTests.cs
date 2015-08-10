@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using PureSharp.Tests.Utils;
-using PureSharp.Monoid;
+using static PureSharp.Monoid;
 using PureSharp.WriterMonad;
-using PureSharp.WriterMonad.WriterExtensions;
+using static PureSharp.WriterMonad.WriterExtensions;
 using System;
 using IntStringWriter = PureSharp.WriterMonad.Writer<string, int>;
 using LongSringWriter = PureSharp.WriterMonad.Writer<string, long>;

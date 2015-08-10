@@ -50,8 +50,11 @@ namespace <#=rootNameSpace#>.<#=nameSpace#> {
     Generate(rootNameSpace, namespaceName, className, x => string.Format("{0}<{1}{2}>", containerName, addidional, x), true, addidional);
 #>
 namespace <#=rootNameSpace#>.<#=namespaceName#> {
-    public struct <#=containerName#><<#=addidional#>A>(<#=innerContainerName#><<#=addidional#>MayBe<A>> value) {
-        public readonly <#=innerContainerName#><<#=addidional#>MayBe<A>> Value = value;
+    public struct <#=containerName#><<#=addidional#>A> {
+        public readonly <#=innerContainerName#><<#=addidional#>MayBe<A>> Value;
+        public <#=containerName#>(<#=innerContainerName#><<#=addidional#>MayBe<A>> value) {
+            Value = value;
+        }
     }
     public static partial class <#=className#> {
         public static <#=containerName#><<#=addidional#>A> As<#=containerName#><<#=addidional#>A>(this <#=innerContainerName#><<#=addidional#>MayBe<A>> source) {
@@ -87,8 +90,11 @@ namespace <#=rootNameSpace#>.<#=namespaceName#> {
     Generate(rootNameSpace, namespaceName, className, x => string.Format("{0}<{1}>", containerName, x), true);
 #>
 namespace <#=rootNameSpace#>.<#=monadName#>MayBeMonad {
-    public struct <#=containerName#><A>(<#=monadName#><A> value) {
-        public readonly <#=monadName#><A> Value = value;
+    public struct <#=containerName#><A> {
+        public readonly <#=monadName#><A> Value;
+        public <#=containerName#>(<#=monadName#><A> value) {
+            Value = value;
+        }
     }
     public static partial class <#=monadName#>MayBeExtensions {
         public static <#=containerName#><A> As<#=containerName#><A>(this <#=monadName#><A> source) {

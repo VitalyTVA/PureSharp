@@ -1,5 +1,5 @@
 ﻿using System;
-using PureSharp.LazyExtensions;
+using static PureSharp.LazyExtensions;
 
 namespace PureSharp.LazyMonad {
     public static partial class LazyExtensions {

@@ -88,10 +88,11 @@ namespace PureSharp.Tests {
              from b in ((string)null).AsMayBe()
              select a.ToString() + b).Value.IsEqual<string>(null);
 
-            (var x = from a in ((int?)1).AsMayBe()
+            var x = from a in ((int?)1).AsMayBe()
                      from b in ((byte?)2).AsMayBe()
                      let c = a * 2
-                     select (long)c + b).Value.IsEqual<long?>(4);
+                     select (long)c + b;
+            x.Value.IsEqual<long?>(4);
 
             SumIfGreater(2, 1).IsEqual<int?>(3);
             SumIfGreater(1, 2).IsEqual<int?>(null);

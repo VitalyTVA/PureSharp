@@ -5,10 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PureSharp.WriterMonad {
-    public struct Writer<W, A>(A value, W log, Monoid<W> monoid) {
-        public readonly W Log = log;
-        public readonly A Value = value;
-        public readonly Monoid<W> Monoid = monoid;
+    public struct Writer<W, A> {
+        public readonly W Log;
+        public readonly A Value;
+        public readonly Monoid<W> Monoid;
+        public Writer(A value, W log, Monoid<W> monoid) {
+            Log = log;
+            Value = value;
+            Monoid = monoid;
+        }
     }
     public static partial class WriterExtensions {
         public static Writer<W, A> Append<W, A>(this Writer<W, A> source, W log) {
