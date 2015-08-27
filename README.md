@@ -1,0 +1,2 @@
+# PureSharp
+Functional stuff playground
